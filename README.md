@@ -1,6 +1,3 @@
-# University of Technology Jamaica 
-# School of Computing and Information Technology 
-# Computer Security Lab Project (15%)
 
 DATE GIVEN: November 6, 2017 
 
