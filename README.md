@@ -22,7 +22,7 @@ Created a remote access trojan that will establish administrative control over a
 # ToDo
 
 1. Create a custom popup box
-2. Encrypt communication between server and client
-3. Clear the System, Security, and Application logs
+2. Clear the System, Security, and Application logs
+3. Encrypt communication between server and client
 4. Edit the accessed, created, and modified properties of files
 5. Enable/Disable services such as RDP,UAC, and Windows Defender
