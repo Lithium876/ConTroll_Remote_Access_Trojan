@@ -1,4 +1,7 @@
 # ConTroll - Remote Access Trojan (RAT)
+
+![alt text](img/1.png)
+
 Created a remote access trojan that will establish administrative control over any machine it compromises. The RAT is able to accomplish the following:
 
 1. Lock Victim's screen.
