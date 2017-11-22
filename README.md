@@ -18,3 +18,11 @@ Created a remote access trojan that will establish administrative control over a
 6. Activate a system’s webcam and record video.
 7. Kill any process running on victim's machine.
 8. Monitoring user behavior through keylogger capabilities (Keystrokes and Screenshots).
+
+# ToDo
+
+1. Create a custom popup box
+2. Encrypt communication between server and client
+3. Clear the System, Security, and Application logs
+4. Edit the accessed, created, and modified properties of files
+5. Enable/Disable services such as RDP,UAC, and Windows Defender
