@@ -3,14 +3,16 @@ Created a remote access trojan that will establish administrative control over a
 
 1. Lock Victim's screen.
 
-2. Grab files from the victim's machine.
+2. Auto recconnect to Server.
 
-3. Get information about victim's machine.
+3. Grab files from the victim's machine.
 
-4. Steal saved passwords stored in chrome.
+4. Get information about victim's machine.
 
-5. Activate a system’s webcam and record video.
+5. Steal saved passwords stored in chrome.
 
-6. Kill any process running on victim's machine
+6. Activate a system’s webcam and record video.
 
-7. Monitoring user behavior through keylogger capabilities (Keystrokes and Screenshots) 
+7. Kill any process running on victim's machine.
+
+8. Monitoring user behavior through keylogger capabilities (Keystrokes and Screenshots).
