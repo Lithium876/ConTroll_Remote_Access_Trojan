@@ -4,9 +4,11 @@
 
 # ConTroll - Remote Access Trojan (RAT)
 
+Created a remote access trojan that will establish administrative control over any machine it compromises.
+
 ![alt text](img/1.PNG)
 
-Created a remote access trojan that will establish administrative control over any machine it compromises. The RAT is able to accomplish the following:
+# Features
 
 1. Lock Victim's screen.
 2. Auto recconnect to Server.
