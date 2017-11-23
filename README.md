@@ -29,7 +29,7 @@ Created a remote access trojan that will establish administrative control over a
 
 # Usage
 
-1.Install requirements.txt
+1. Install requirements.txt
 
 2. Set ip_address. The ip_address is taken from the server's network
 
