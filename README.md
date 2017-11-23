@@ -47,7 +47,9 @@ http://sourceforge.net/projects/pywin32/files/pywin32/Build%20219/
 Set ip_address. The ip_address is taken from the server's network
 
 Use pyinstaller to build the client binary
-* SEE PYINSTALLER README 
+```
+python pyinstaller.py --onefile --windowed --icon=icon.ico client.pyw
+```
 
 4. Run the server
 ```
