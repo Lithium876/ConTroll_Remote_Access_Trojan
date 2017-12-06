@@ -17,8 +17,9 @@ Created a remote access trojan that will establish administrative control over a
 5. Get information about victim's machine.
 6. Steal saved passwords stored in chrome.
 7. Activate a system’s webcam and record video.
-8. Kill any process running on victim's machine.
-9. Monitoring user behavior through keylogger capabilities (Keystrokes and Screenshots).
+8. Activate system microphone and record audio.
+9. Kill any process running on victim's machine.
+10. Monitoring user behavior through keylogger capabilities (Keystrokes and Screenshots).
 
 # Requirements
 1. python 2.x
