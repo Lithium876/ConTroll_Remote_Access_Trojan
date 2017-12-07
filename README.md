@@ -13,8 +13,8 @@ Created a remote access trojan that will establish administrative control over a
 # Features
 
 1. Lock Victim's screen.
-2. Create a custom popup box.
-3. Auto recconnect to Server.
+2. Auto-reconnect to Server.
+3. Create a custom popup box.
 4. Grab files from the victim's machine.
 5. Get information about victim's machine.
 6. Steal saved passwords stored in chrome.
