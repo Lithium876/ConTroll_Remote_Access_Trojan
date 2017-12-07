@@ -1,6 +1,8 @@
 # DISCLAIMER
 
-#### ConTroll is for education/research purposes only. The author takes NO responsibility and/or liability for how you choose to use any of the tools/source code/any files provided. The author and anyone affiliated with will not be liable for any losses and/or damages in connection with use of ANY files provided with ConTroll. By using ConTroll or any files included, you understand that you are AGREEING TO USE AT YOUR OWN RISK. Once again ConTroll and ALL files included are for EDUCATION and/or RESEARCH purposes ONLY. ConTroll is ONLY intended to be used on your own pentesting labs, or with explicit consent from the owner of the property being tested.
+#### ConTroll is for education/research purposes only. The author takes NO responsibility and/or liability for how you choose to use any of the tools/source code/any files provided. The author and anyone affiliated with will not be liable for any losses and/or damages in connection with the use of ANY files provided with ConTroll.  By using ConTroll or any files included, you understand that you are AGREEING TO USE AT YOUR OWN RISK. 
+
+#### Once again ConTroll and ALL files included are for EDUCATION and/or RESEARCH purposes ONLY. ConTroll is ONLY intended to be used on your own pentesting labs, or with explicit consent from the owner of the property being tested.
 
 # ConTroll - Remote Access Trojan (RAT)
 
@@ -28,6 +30,7 @@ Created a remote access trojan that will establish administrative control over a
 4. pyhook
 5. pythoncom
 6. pyinstaller
+7. pygame
 
 # Usage
 Clone the repo
