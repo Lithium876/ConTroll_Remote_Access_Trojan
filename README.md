@@ -31,6 +31,7 @@ Created a remote access trojan that will establish administrative control over a
 5. pythoncom
 6. pyinstaller
 7. pygame
+8. py2exe
 
 # Usage
 Clone the repo
@@ -54,6 +55,13 @@ Use pyinstaller to build the client binary
 ```
 python pyinstaller.py --onefile --windowed client.pyw
 ```
+
+Use py2exe to build the flappy bird game
+```
+python setup.py
+```
+
+The exe for the flappy bird game will be in a folder called 'dist'
 
 4. Run the server
 ```
