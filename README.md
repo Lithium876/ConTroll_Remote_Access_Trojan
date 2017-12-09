@@ -5,7 +5,7 @@
 #### Once again ConTroll and ALL files included are for EDUCATION and/or RESEARCH purposes ONLY. ConTroll is ONLY intended to be used on your own pentesting labs, or with explicit consent from the owner of the property being tested.
 
 # ConTroll - Remote Access Trojan (RAT)
-**[Watch Presentation Video Here](https://www.youtube.com/watch?v=pHmgPY3jDHQ&lc=Ugz4ri2cnHnICznIVUx4AaABAg)**
+**<a href="https://www.youtube.com/watch?v=pHmgPY3jDHQ&lc=Ugz4ri2cnHnICznIVUx4AaABAg" target="_blank">Watch Presentation Video Here</a>**
 
 Created a remote access trojan that will establish administrative control over any machine it compromises.
 
