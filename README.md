@@ -24,6 +24,7 @@ Created a remote access trojan that will establish administrative control over a
 10. Monitoring user behavior through keylogger capabilities (Keystrokes and Screenshots).
 
 # Requirements
+**You NEED a 32bit OS architecture to build the binaries. So use a win 32 or unix 32 system to run and build the code**
 1. python 2.x
 2. opencv
 3. numpy
