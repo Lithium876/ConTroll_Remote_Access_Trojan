@@ -52,7 +52,7 @@ Set ip_address. The ip_address is taken from the server's network
 
 Use pyinstaller to build the client binary
 ```
-python pyinstaller.py --onefile --windowed --icon=icon.ico client.pyw
+python pyinstaller.py --onefile --windowed client.pyw
 ```
 
 4. Run the server
