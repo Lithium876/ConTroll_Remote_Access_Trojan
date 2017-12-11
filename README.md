@@ -1,3 +1,5 @@
+[![GitHub closed issues](https://img.shields.io/github/issues-closed/badges/shie [![GitHub issue last update](https://img.shields.io/github/issues/detail/last-update/badges/shields/979.svg)](https://github.com/Lithium95/ConTroll_Remote_Access_Trojan)
+
 # DISCLAIMER
 
 #### ConTroll is for education/research purposes only. The author takes NO responsibility and/or liability for how you choose to use any of the tools/source code/any files provided. The author and anyone affiliated with will not be liable for any losses and/or damages in connection with the use of ANY files provided with ConTroll.  By using ConTroll or any files included, you understand that you are AGREEING TO USE AT YOUR OWN RISK. 
