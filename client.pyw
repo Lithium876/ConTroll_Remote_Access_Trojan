@@ -1,5 +1,4 @@
 from __future__ import print_function
-from bs4 import BeautifulSoup
 from shutil import copyfile
 from PIL import ImageGrab
 from os import getenv
