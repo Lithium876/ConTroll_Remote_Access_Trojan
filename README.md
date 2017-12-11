@@ -7,7 +7,7 @@
 # ConTroll - Remote Access Trojan (RAT)
 **[Watch Presentation Video Here](https://www.youtube.com/watch?v=pHmgPY3jDHQ)**
 
-Created a remote access trojan that will establish administrative control over any machine it compromises.
+Created a remote access trojan that will establish administrative control over any Windows machine it compromises.
 
 ![alt text](img/1.PNG)
 
@@ -92,7 +92,8 @@ python server.py
 
 # ToDo
 
-1. Clear the System, Security, and Application logs
-2. Encrypt communication between server and client
-3. Edit the accessed, created, and modified properties of files
-4. Enable/Disable services such as RDP,UAC, and Windows Defender
+1. Making the RAT cross platform
+2. Clear the System, Security, and Application logs
+3. Encrypt communication between server and client
+4. Edit the accessed, created, and modified properties of files
+5. Enable/Disable services such as RDP,UAC, and Windows Defender
