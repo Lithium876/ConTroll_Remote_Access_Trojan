@@ -9,7 +9,7 @@
 
 Created a remote access trojan that will establish administrative control over any machine it compromises.
 
-![alt text](img/1.PNG)ly 
+![alt text](img/1.PNG)
 
 ### UDATES SINCE THE VIDEO PRESENTATION
 
