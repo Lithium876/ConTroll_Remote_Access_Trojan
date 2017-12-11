@@ -1,4 +1,4 @@
-[![GitHub closed issues](https://img.shields.io/github/issues-closed/badges/shie [![GitHub issue last update](https://img.shields.io/github/issues/detail/last-update/badges/shields/979.svg)](https://github.com/Lithium95/ConTroll_Remote_Access_Trojan)
+[![GitHub issues](https://img.shields.io/github/issues/badges/shields.svg)](https://github.com/Lithium95/ConTroll_Remote_Access_Trojan/issues) [![GitHub issue last update](https://img.shields.io/github/issues/detail/last-update/badges/shields/979.svg)](https://github.com/Lithium95/ConTroll_Remote_Access_Trojan) 
 
 # DISCLAIMER
 
@@ -99,16 +99,3 @@ python server.py
 3. Encrypt communication between server and client
 4. Edit the accessed, created, and modified properties of files
 5. Enable/Disable services such as RDP,UAC, and Windows Defender
-
-# LICENSE
-
-The MIT License (MIT)
-
-Copyright (c) 2017 Lomar Lilly
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
