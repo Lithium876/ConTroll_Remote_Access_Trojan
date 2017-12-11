@@ -1,4 +1,4 @@
-[![GitHub issues](https://img.shields.io/github/issues/badges/shields.svg)](https://github.com/Lithium95/ConTroll_Remote_Access_Trojan/issues) [![GitHub issue last update](https://img.shields.io/github/issues/detail/last-update/badges/shields/979.svg)](https://github.com/Lithium95/ConTroll_Remote_Access_Trojan) 
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Lithium95/ConTroll_Remote_Access_Trojan/blob/master/LICENSE) [![Twitter Follow](https://img.shields.io/twitter/follow/espadrine.svg?style=social&label=Follow)](https://twitter.com/LithiumLilly)
 
 # DISCLAIMER
 
