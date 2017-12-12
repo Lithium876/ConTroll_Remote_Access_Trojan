@@ -1,4 +1,4 @@
-![control](https://img.shields.io/badge/ConTroll-v1.0.0-green.svg) [![Language](https://img.shields.io/badge/python-2.7.8-brightgreen.svg)](https://www.python.org/download/releases/2.7.8/) [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Lithium95/ConTroll_Remote_Access_Trojan/blob/master/LICENSE) 
+![control](https://img.shields.io/badge/ConTroll-v1.0.0-green.svg) [![Language](https://img.shields.io/badge/python-2.7.8-brightgreen.svg)](https://www.python.org/download/releases/2.7.8/) [![license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/Lithium95/ConTroll_Remote_Access_Trojan/blob/master/LICENSE)
 
 
 # DISCLAIMER
