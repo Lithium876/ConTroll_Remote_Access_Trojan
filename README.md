@@ -23,15 +23,15 @@ Created a remote access trojan that will establish administrative control over a
 # Features
 
 1. Lock Victim's screen.
-2. Disable Task Manager.
-3. Auto-reconnect to Server.
-4. Create a custom popup box.
-5. Grab files from the victim's machine.
-6. Get information about victim's machine.
-7. Steal saved passwords stored in chrome.
-8. Activate a system’s webcam and record video.
-9. Activate system microphone and record audio.
-10. Kill any process running on victim's machine.
+2. Auto-reconnect to Server.
+3. Create a custom popup box.
+4. Grab files from the victim's machine.
+5. Get information about victim's machine.
+6. Steal saved passwords stored in chrome.
+7. Activate a system’s webcam and record video.
+8. Activate system microphone and record audio.
+9. Kill any process running on victim's machine.
+10. Disable Task Manager.(**WARNING: YOU MIGHT WANT TO DISABLE THIS IF RUNNING LOCALLY**)
 11. Monitoring user behavior through keylogger capabilities (Keystrokes and Screenshots).
 
 # Requirements
