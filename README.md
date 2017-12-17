@@ -17,19 +17,22 @@ Created a remote access trojan that will establish administrative control over a
 ### UDATES SINCE THE VIDEO PRESENTATION
 
 1. Remote update the IP Address and port the client should talk to
+2. Entering IP address on server execution
+3. Disable task manager
 
 # Features
 
-1. Lock Victim's screen.
-2. Auto-reconnect to Server.
-3. Create a custom popup box.
-4. Grab files from the victim's machine.
-5. Get information about victim's machine.
-6. Steal saved passwords stored in chrome.
-7. Activate a system’s webcam and record video.
-8. Activate system microphone and record audio.
-9. Kill any process running on victim's machine.
-10. Monitoring user behavior through keylogger capabilities (Keystrokes and Screenshots).
+1. Disable Task Manager.
+2. Lock Victim's screen.
+3. Auto-reconnect to Server.
+4. Create a custom popup box.
+5. Grab files from the victim's machine.
+6. Get information about victim's machine.
+7. Steal saved passwords stored in chrome.
+8. Activate a system’s webcam and record video.
+9. Activate system microphone and record audio.
+10. Kill any process running on victim's machine.
+11. Monitoring user behavior through keylogger capabilities (Keystrokes and Screenshots).
 
 # Requirements
 **You NEED a 32bit OS architecture to build the binaries. So use a win 32 or unix 32 system to run and build the code**
@@ -93,9 +96,8 @@ python server.py
 
 # ToDo
 
-1. Disable Task Manager
-2. Making the RAT cross platform
-3. Clear the System, Security, and Application logs
-4. Encrypt communication between server and client
-5. Edit the accessed, created, and modified properties of files
-6. Enable/Disable services such as RDP,UAC, and Windows Defender
+1. Making the RAT cross platform
+2. Clear the System, Security, and Application logs
+3. Encrypt communication between server and client
+4. Edit the accessed, created, and modified properties of files
+5. Enable/Disable services such as RDP,UAC, and Windows Defender
