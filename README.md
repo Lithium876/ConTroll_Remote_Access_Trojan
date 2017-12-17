@@ -57,7 +57,7 @@ git clone https://github.com/Lithium95/ConTroll_Remote_Access_Trojan.git
 ```
 python -m pip install -r requirements.txt
 ```
-3. [Download ans Install pyHook](http://sourceforge.net/projects/pyhook/files/pyhook/1.5.1/)
+3. [Download and Install pyHook](http://sourceforge.net/projects/pyhook/files/pyhook/1.5.1/)
 
 4. [Download and Install pythoncom](http://sourceforge.net/projects/pywin32/files/pywin32/Build%20219/)
 
