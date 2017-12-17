@@ -22,8 +22,8 @@ Created a remote access trojan that will establish administrative control over a
 
 # Features
 
-1. Disable Task Manager.
-2. Lock Victim's screen.
+1. Lock Victim's screen.
+2. Disable Task Manager.
 3. Auto-reconnect to Server.
 4. Create a custom popup box.
 5. Grab files from the victim's machine.
