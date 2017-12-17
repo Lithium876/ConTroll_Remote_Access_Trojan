@@ -31,8 +31,8 @@ Created a remote access trojan that will establish administrative control over a
 7. Activate a system’s webcam and record video.
 8. Activate system microphone and record audio.
 9. Kill any process running on victim's machine.
-10. Disable Task Manager.(**WARNING: YOU MIGHT WANT TO DISABLE THIS IF RUNNING LOCALLY**)
-11. Monitoring user behavior through keylogger capabilities (Keystrokes and Screenshots).
+10. Monitoring user behavior through keylogger capabilities (Keystrokes and Screenshots).
+11. Disable Task Manager. (**WARNING: YOU MIGHT WANT TO DISABLE THIS IF RUNNING LOCALLY**)
 
 # Requirements
 **You NEED a 32bit OS architecture to build the binaries. So use a win 32 or unix 32 system to run and build the code**
